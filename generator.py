@@ -1,9 +1,71 @@
 import math as m
+import conversions as cnv
 
 
-def generator(ell_params: list, rotate_angles: list) -> list:
+def theta_init(h: float) -> list:
+    beg = -m.pi / 2
+    theta = []
+    while beg <= m.pi / 2:
+        theta.append(beg)
+        beg += h / 2
+    return theta
+
+
+def phi_init(h: float) -> list:
+    beg = -m.pi
+    phi = []
+    while beg <= m.pi:
+        phi.append(beg)
+        beg += h
+    return phi
+
+
+def mrange(a: int, b: int, c: int, t: float, p: float) -> float:
+    return (a * b * c) / m.sqrt((b * c * m.cos(t) * m.cos(p)) ** 2 +
+                                (a * c * m.cos(t) * m.sin(p)) ** 2 +
+                                (b * a * m.sin(t)) ** 2)
+
+
+def mrange_array(a: int, b: int, c: int) -> list:
     h = m.pi / 180
-    theta = [-m.pi / 2]
-    while theta[len(theta)-1] < m.pi / 2:
-        theta.append(theta[len(theta)-1] + h / 2)
-    return [theta]
+    theta = theta_init(h)
+    phi = phi_init(h)
+    rng = []
+    for t in theta:
+        rr = []
+        for p in phi:
+            rr.append(mrange(a,b,c,t,p))
+        rng.append(rr)
+    return rng
+
+
+def generator(ell_params: list) -> list:
+    if len(ell_params) == 0:
+        return [0]
+    h = m.pi / 180
+    theta = theta_init(h)
+    phi = phi_init(h)
+
+    a = []
+    e = []
+    r = []
+
+    xb = [0]*len(theta)
+    yb = [0]*len(theta)
+    zb = [0]*len(theta)
+
+    for params in ell_params:
+        a, b, c, rot_x, rot_y, rot_z = params
+        rng = mrange_array(a,b,c)
+        x, y, z = cnv.convert2enu(phi, theta, rng)
+        if rot_x != 0:
+            x, y, z = cnv.rotate_by_x(x, y, z, rot_x / 180 * m.pi)
+        if rot_y != 0:
+            x, y, z = cnv.rotate_by_y(x, y, z, rot_y / 180 * m.pi)
+        if rot_z != 0:
+            x, y, z = cnv.rotate_by_z(x, y, z, rot_z / 180 * m.pi)
+
+
+
+
+

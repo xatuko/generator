@@ -43,3 +43,43 @@ def arr_to_str(arr: list) -> str:
         res = res + str(val) + ' : '
     res = res[:len(res) - 3] + '\n'
     return res
+
+
+def convert2aer(x: list, y: list, z: list) -> list:
+    if len(x) != len(y) or len(y) != len(z) or len(x) != len(z):
+        return [0]
+    a = []
+    e = []
+    r = []
+    for i in range(len(x)):
+        rr = []
+        for j in range(len(x[i])):
+            _a, _e, _r = enu2aer(x[i][j], y[i][j], z[i][j])
+            if len(a) < len(x[i]):
+                a.append(_a)
+            if len(e) < len(x[i]):
+                e.append(_e)
+        r.append(rr)
+    return [a, e, r]
+
+
+def convert2enu(a: list, e: list, r: list) -> list:
+    if len(a) != len(e):
+        return [0]
+    x = []
+    y = []
+    z = []
+    for i in range(len(e)):
+        xb = []
+        yb = []
+        zb = []
+        for j in range(len(a)):
+            _x, _y, _z = aer2enu(a[j], e[i], r[i][j])
+            xb.append(_x)
+            yb.append(_y)
+            zb.append(_z)
+        x.append(xb)
+        y.append(yb)
+        z.append(zb)
+    return [x, y, z]
+

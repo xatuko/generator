@@ -4,10 +4,7 @@ import conversions as conv
 import generator as gen
 
 
-def m_range(a: int, b: int, c: int, t: float, p: float) -> float:
-    return (a * b * c) / m.sqrt((b * c * m.cos(t) * m.cos(p)) ** 2 +
-                                (a * c * m.cos(t) * m.sin(p)) ** 2 +
-                                (b * a * m.sin(t)) ** 2)
+
 
 th = open("theta.txt", 'w')
 ph = open("phi.txt", 'w')
@@ -38,4 +35,4 @@ for t in theta:
     rng.append(rr)
     ra.write(conv.arr_to_str(rr))
 
-print(len(gen.generator([],[])[0]))
+gen.generator([],[])
