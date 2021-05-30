@@ -28,11 +28,12 @@ while s_phi < m.pi:
     ph.write(str(s_phi) + '\n')
     s_phi += h
 
-for t in theta:
-    rr = []
-    for p in phi:
-        rr.append(m_range(3, 1, 1, t, p))
-    rng.append(rr)
-    ra.write(conv.arr_to_str(rr))
+#for t in theta:
+    #rr = []
+    #for p in phi:
+        #rr.append(gen.m_range(3, 1, 1, t, p))
+    #rng.append(rr)
+    #ra.write(conv.arr_to_str(rr))
 
-gen.generator([],[])
+print(gen.sumatr([[1,2],[3,4]], [[1,2], [3,4]]))
+print([[1,2],[3,4]])

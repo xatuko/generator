@@ -2,6 +2,16 @@ import math as m
 import conversions as cnv
 
 
+def sumatr(arr1: list, arr2: list) -> list:
+    if len(arr1) != len(arr2):
+        return [0]
+    res = [[0]*len(arr1)]*len(arr1)
+    for i in range(len(arr1)):
+        for j in range(len(arr1[i])):
+            res[i][j] = arr1[i][j] + arr2[i][j]
+    return res
+
+
 def theta_init(h: float) -> list:
     beg = -m.pi / 2
     theta = []
