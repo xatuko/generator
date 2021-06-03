@@ -60,24 +60,35 @@ def generator(ell_params: list) -> list:
     theta = theta_init(h)
     phi = phi_init(h)
 
-    a = []
-    e = []
-    r = []
+    x = [[0 for j in range(361)] for i in range(361)]
+    y = [[0 for j in range(361)] for i in range(361)]
+    z = [[0 for j in range(361)] for i in range(361)]
 
-    xb = [0]*len(theta)
-    yb = [0]*len(theta)
-    zb = [0]*len(theta)
-
-    for params in ell_params:
-        a, b, c, rot_x, rot_y, rot_z = params
+    for param in ell_params:
+        a,b,c,rx,ry,rz = param
         rng = mrange_array(a,b,c)
-        x, y, z = cnv.convert2enu(phi, theta, rng)
-        if rot_x != 0:
-            x, y, z = cnv.rotate_by_x(x, y, z, rot_x / 180 * m.pi)
-        if rot_y != 0:
-            x, y, z = cnv.rotate_by_y(x, y, z, rot_y / 180 * m.pi)
-        if rot_z != 0:
-            x, y, z = cnv.rotate_by_z(x, y, z, rot_z / 180 * m.pi)
+        xb,yb,zb = cnv.convert2enu(phi,theta,rng)
+        if rx != 0:
+            for i in range(361):
+                for j in range(361):
+                    xb[i][j],yb[i][j],zb[i][j] = cnv.rotate_by_x(xb[i][j],yb[i][j],zb[i][j], m.pi/180*rx)
+        if ry != 0:
+            for i in range(361):
+                for j in range(361):
+                    xb[i][j],yb[i][j],zb[i][j] = cnv.rotate_by_x(xb[i][j],yb[i][j],zb[i][j], m.pi/180*ry)
+        if rz != 0:
+            for i in range(361):
+                for j in range(361):
+                    xb[i][j],yb[i][j],zb[i][j] = cnv.rotate_by_x(xb[i][j],yb[i][j],zb[i][j], m.pi/180*rz)
+        x = sumatr(x,xb)
+        y = sumatr(y,yb)
+        z = sumatr(z,zb)
+    
+    return x,y,z
+
+        
+
+
 
 
 
