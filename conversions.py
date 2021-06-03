@@ -6,7 +6,7 @@ def aer2enu(a: float, e: float, r: float) -> list:
     rs = m.cos(e) * r
     x = m.cos(a) * rs
     y = m.sin(a) * rs
-    return [x, y, z]
+    return x, y, z
 
 
 def enu2aer(x: float, y: float, z: float) -> list:
@@ -48,38 +48,23 @@ def arr_to_str(arr: list) -> str:
 def convert2aer(x: list, y: list, z: list) -> list:
     if len(x) != len(y) or len(y) != len(z) or len(x) != len(z):
         return [0]
-    a = []
-    e = []
-    r = []
-    for i in range(len(x)):
-        rr = []
-        for j in range(len(x[i])):
-            _a, _e, _r = enu2aer(x[i][j], y[i][j], z[i][j])
-            if len(a) < len(x[i]):
-                a.append(_a)
-            if len(e) < len(x[i]):
-                e.append(_e)
-        r.append(rr)
+    a = [[0 for j in range(361)] for i in range(361)]
+    e = [[0 for j in range(361)] for i in range(361)]
+    r = [[0 for j in range(361)] for i in range(361)]
+    for i in range(361):
+        for j in range(361):
+            a[i][j], e[i][j], r[i][j] = enu2aer(x[i][j], y[i][j], z[i][j])
     return [a, e, r]
 
 
 def convert2enu(a: list, e: list, r: list) -> list:
     if len(a) != len(e):
         return [0]
-    x = []
-    y = []
-    z = []
-    for i in range(len(e)):
-        xb = []
-        yb = []
-        zb = []
-        for j in range(len(a)):
-            _x, _y, _z = aer2enu(a[j], e[i], r[i][j])
-            xb.append(_x)
-            yb.append(_y)
-            zb.append(_z)
-        x.append(xb)
-        y.append(yb)
-        z.append(zb)
-    return [x, y, z]
+    x = [[0 for j in range(361)] for i in range(361)]
+    y = [[0 for j in range(361)] for i in range(361)]
+    z = [[0 for j in range(361)] for i in range(361)]
+    for i in range(361):
+        for j in range(361):
+            x[i][j], y[i][j], z[i][j] = aer2enu(a[i][j], e[i][j], r[i][j])
+    return x, y, z
 

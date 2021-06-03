@@ -5,7 +5,7 @@ import conversions as cnv
 def sumatr(arr1: list, arr2: list) -> list:
     if len(arr1) != len(arr2):
         return [0]
-    res = [[0]*len(arr1)]*len(arr1)
+    res = [[0 for i in range(len(arr1))] * j in range(len(arr2))]
     for i in range(len(arr1)):
         for j in range(len(arr1[i])):
             res[i][j] = arr1[i][j] + arr2[i][j]
@@ -16,7 +16,10 @@ def theta_init(h: float) -> list:
     beg = -m.pi / 2
     theta = []
     while beg <= m.pi / 2:
-        theta.append(beg)
+        t = []
+        for i in range(361):
+            t.append(beg)
+        theta.append(t)
         beg += h / 2
     return theta
 
@@ -24,9 +27,12 @@ def theta_init(h: float) -> list:
 def phi_init(h: float) -> list:
     beg = -m.pi
     phi = []
+    p = []
     while beg <= m.pi:
-        phi.append(beg)
+        p.append(beg)
         beg += h
+    for i in range(361):
+        phi.append(p)
     return phi
 
 
@@ -40,12 +46,10 @@ def mrange_array(a: int, b: int, c: int) -> list:
     h = m.pi / 180
     theta = theta_init(h)
     phi = phi_init(h)
-    rng = []
-    for t in theta:
-        rr = []
-        for p in phi:
-            rr.append(mrange(a,b,c,t,p))
-        rng.append(rr)
+    rng = theta
+    for i in range(361):
+        for j in range(361):
+            rng[i][j] = mrange(a,b,c,theta[i][j],phi[i][j])
     return rng
 
 
