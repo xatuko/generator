@@ -5,7 +5,7 @@ import conversions as cnv
 def sumatr(arr1: list, arr2: list) -> list:
     if len(arr1) != len(arr2):
         return [0]
-    res = [[0 for i in range(len(arr1))] * j in range(len(arr2))]
+    res = [[0 for i in range(len(arr1))] for j in range(len(arr2))]
     for i in range(len(arr1)):
         for j in range(len(arr1[i])):
             res[i][j] = arr1[i][j] + arr2[i][j]

@@ -17,13 +17,16 @@ h = m.pi / 180
 theta = gen.theta_init(h)
 phi = gen.phi_init(h)
 
-rng = gen.mrange_array(3,1,1)
+rng1 = gen.mrange_array(3,1,1)
+rng2 = gen.mrange_array(1,3,1)
 
-x,y,z = conv.convert2enu(phi, theta, rng)
+x1,y1,z1 = conv.convert2enu(phi, theta, rng1)
+x2,y2,z2 = conv.convert2enu(phi, theta, rng2)
 
-for i in range(361):
-    for j in range(361):
-        x[i][j], y[i][j], z[i][j] = conv.rotate_by_y(x[i][j], y[i][j], z[i][j], m.pi/6)
+x = gen.sumatr(x1,x2)
+y = gen.sumatr(y1,y2)
+z = gen.sumatr(z1,z2)
+
 
 p, t, rng = conv.convert2aer(x,y,z)
 
