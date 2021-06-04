@@ -1,5 +1,6 @@
 import math as m
 import conversions as cnv
+import random as rnd
 
 
 def sumatr(arr1: list, arr2: list) -> list:
@@ -86,6 +87,13 @@ def generator(ell_params: list) -> list:
     
     return x,y,z
 
+
+def add_error(mar: list) -> list:
+    res = [[0 for i in range(6)] for j in range(len(mar))]
+    for i in range(len(mar)):
+        for j in range(len(mar[i])):
+            res[i][j] = mar[i][j] + rnd.randint(-2,2)
+    return res
         
 
 
